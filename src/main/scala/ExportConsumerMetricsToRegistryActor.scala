@@ -60,6 +60,7 @@ class BaseExportConsumerMetricsToRegistryActor(kafkaClientActorRef: ActorRef)
   }
 
   //yea the gauges aren't really meant to be used by this, but i dont want to cache the results.
+  //  o ya?  then maybe it isn't an ERROR...
   def registerOrUpdateGauge(gaugeName: String, value: Option[Long]) = {
     value match {
       case Some(v) => {
@@ -68,7 +69,7 @@ class BaseExportConsumerMetricsToRegistryActor(kafkaClientActorRef: ActorRef)
           override def getValue: Long = v
         })
       }
-      case None => log.error(s"Gauge $gaugeName has None!")
+      case None => log.debug(s"Gauge $gaugeName has None!")
     }
   }
 }
